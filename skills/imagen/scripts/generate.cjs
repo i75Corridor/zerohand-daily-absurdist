@@ -2,7 +2,8 @@
 /**
  * Imagen generation script (CommonJS — NODE_PATH resolves @google/genai via server/node_modules).
  *
- * stdin:  { prompt, modelName, outputDir, slug, aspectRatio, personGeneration, apiKey }
+ * stdin:  { prompt, modelName, outputDir, slug, aspectRatio, personGeneration }
+ * env:    GEMINI_API_KEY (injected via skill secrets declaration)
  * stdout: { imagePath }
  */
 const { createInterface } = require("readline");
@@ -56,11 +57,11 @@ rl.on("close", async () => {
     slug = "image",
     aspectRatio = "16:9",
     personGeneration = "allow_all",
-    apiKey,
   } = JSON.parse(chunks.join("\n") || "{}");
 
+  const apiKey = process.env.GEMINI_API_KEY;
   if (!apiKey) {
-    process.stderr.write("No apiKey provided in input\n");
+    process.stderr.write("GEMINI_API_KEY is not set in the environment\n");
     process.exit(1);
   }
 
