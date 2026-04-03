@@ -71,7 +71,9 @@ rl.on("close", async () => {
     process.exit(1);
   }
 
-  const imagePath = join(resolve(outputDir), `${slug}.png`);
+  const safeSlug = slug.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "") || "image";
+  const ts = Date.now().toString(36);
+  const imagePath = join(resolve(outputDir), `${safeSlug}-${ts}.png`);
   const styledPrompt = prompt.trim() + STYLE_SUFFIX;
   const promptsToTry = [styledPrompt, ...FALLBACK_PROMPTS];
 
