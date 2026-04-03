@@ -2,7 +2,7 @@
 /**
  * Imagen generation script (CommonJS — NODE_PATH resolves @google/genai via server/node_modules).
  *
- * stdin:  { prompt, modelName, outputDir, slug, aspectRatio, personGeneration }
+ * stdin:  { prompt, modelName, slug, aspectRatio, personGeneration }
  * env:    GEMINI_API_KEY (injected via skill secrets declaration)
  *         OUTPUT_DIR (forwarded from server environment)
  * stdout: { imagePath }
@@ -54,7 +54,6 @@ rl.on("close", async () => {
   const {
     prompt = "",
     modelName = "imagen-4.0-generate-001",
-    outputDir = process.env.OUTPUT_DIR ?? "/tmp/zerohand-output",
     slug = "image",
     aspectRatio = "16:9",
     personGeneration = "allow_all",
@@ -63,6 +62,12 @@ rl.on("close", async () => {
   const apiKey = process.env.GEMINI_API_KEY;
   if (!apiKey) {
     process.stderr.write("GEMINI_API_KEY is not set in the environment\n");
+    process.exit(1);
+  }
+
+  const outputDir = process.env.OUTPUT_DIR;
+  if (!outputDir) {
+    process.stderr.write("OUTPUT_DIR is not set in the environment\n");
     process.exit(1);
   }
 

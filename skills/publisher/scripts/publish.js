@@ -1,8 +1,8 @@
 /**
  * Publisher script — assembles article + cover image into a markdown file.
  *
- * stdin:  { article, imagePath, outputDir }
- * env:    OUTPUT_DIR (forwarded from server environment)
+ * stdin:  { article, imagePath }
+ * env:    OUTPUT_DIR (injected by server — do not pass via stdin)
  * stdout: { publishedPath }
  */
 import { createInterface } from "readline";
@@ -28,11 +28,13 @@ const chunks = [];
 const rl = createInterface({ input: process.stdin });
 rl.on("line", (line) => chunks.push(line));
 rl.on("close", () => {
-  const {
-    article = "",
-    imagePath = "",
-    outputDir = process.env.OUTPUT_DIR ?? "/tmp/zerohand-output",
-  } = JSON.parse(chunks.join("\n") || "{}");
+  const { article = "", imagePath = "" } = JSON.parse(chunks.join("\n") || "{}");
+
+  const outputDir = process.env.OUTPUT_DIR;
+  if (!outputDir) {
+    process.stderr.write("OUTPUT_DIR is not set in the environment\n");
+    process.exit(1);
+  }
 
   const date = new Date().toISOString().slice(0, 10);
   const headline = extractHeadline(article);
