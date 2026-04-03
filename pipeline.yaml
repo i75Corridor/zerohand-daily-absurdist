@@ -47,11 +47,20 @@ steps:
   - name: Illustrate
     skill: imagen
     timeoutSeconds: 120
-    promptTemplate: "{{steps.2.output.imagePrompt}}"
+    promptTemplate: |
+      Generate a cover illustration for this article.
+      Image prompt: {{steps.2.output.imagePrompt}}
+      Output directory: /tmp/zerohand-output
+      Slug: article-cover
 
   - name: Publish
     skill: publisher
     timeoutSeconds: 30
-    promptTemplate: "{{steps.1.output}}"
-    metadata:
-      imageStepIndex: 3
+    promptTemplate: |
+      Publish the following article with its cover illustration.
+
+      Article:
+      {{steps.1.output}}
+
+      Image path: {{steps.3.output.imagePath}}
+      Output directory: /tmp/zerohand-output
