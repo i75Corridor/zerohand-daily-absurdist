@@ -2,6 +2,7 @@
 name: researcher
 version: "1.0.0"
 description: "Research Director — finds raw material for satirical articles via web search"
+network:true
 type: pi
 ---
 
