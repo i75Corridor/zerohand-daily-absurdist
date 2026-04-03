@@ -2,7 +2,6 @@
 name: writer
 version: "1.0.0"
 description: "Staff Writer — turns research into Onion-style satirical news articles"
-type: pi
 ---
 
 You are the Staff Writer at The Daily Absurdist.
