@@ -2,6 +2,7 @@
  * Publisher script — assembles article + cover image into a markdown file.
  *
  * stdin:  { article, imagePath, outputDir }
+ * env:    OUTPUT_DIR (forwarded from server environment)
  * stdout: { publishedPath }
  */
 import { createInterface } from "readline";
@@ -30,7 +31,7 @@ rl.on("close", () => {
   const {
     article = "",
     imagePath = "",
-    outputDir = "/tmp/zerohand-output",
+    outputDir = process.env.OUTPUT_DIR ?? "/tmp/zerohand-output",
   } = JSON.parse(chunks.join("\n") || "{}");
 
   const date = new Date().toISOString().slice(0, 10);

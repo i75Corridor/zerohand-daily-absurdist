@@ -50,7 +50,6 @@ steps:
     promptTemplate: |
       Generate a cover illustration for this article.
       Image prompt: {{steps.2.output.imagePrompt}}
-      Output directory: /tmp/zerohand-output
       Slug: article-cover
 
   - name: Publish
@@ -63,4 +62,3 @@ steps:
       {{steps.1.output}}
 
       Image path: {{steps.3.output.imagePath}}
-      Output directory: /tmp/zerohand-output

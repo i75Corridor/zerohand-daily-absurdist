@@ -4,6 +4,7 @@
  *
  * stdin:  { prompt, modelName, outputDir, slug, aspectRatio, personGeneration }
  * env:    GEMINI_API_KEY (injected via skill secrets declaration)
+ *         OUTPUT_DIR (forwarded from server environment)
  * stdout: { imagePath }
  */
 const { createInterface } = require("readline");
@@ -53,7 +54,7 @@ rl.on("close", async () => {
   const {
     prompt = "",
     modelName = "imagen-4.0-generate-001",
-    outputDir = "/tmp/zerohand-output",
+    outputDir = process.env.OUTPUT_DIR ?? "/tmp/zerohand-output",
     slug = "image",
     aspectRatio = "16:9",
     personGeneration = "allow_all",
